@@ -15,7 +15,7 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "tetgen.h"
+#include "second_party_mesh/tetgen/tetgen.h"
 
 namespace tetgen
 {
