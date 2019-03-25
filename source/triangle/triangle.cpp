@@ -344,8 +344,12 @@
 #include <fpu_control.h>
 #endif /* LINUX */
 #ifdef TRILIBRARY
+<<<<<<< HEAD
 #include "second_party_mesh/triangle/Triangle.h""
 #include "utility/Exceptions.h"
+=======
+#include "second_party_mesh/triangle/triangle.h"
+>>>>>>> 1b5fa3d0b566cc971d653b782f791c5d0906dd82
 #endif /* TRILIBRARY */
 
 /* A few forward declarations.                                               */
@@ -1409,8 +1413,7 @@ int status;
 #endif /* not ANSI_DECLARATORS */
 
 {
-	throw _BETA_MSG_EXCEPT2("A critical error occurred in Triangle.");
-	//exit(status);
+	throw 1;
 }
 
 #ifdef ANSI_DECLARATORS
