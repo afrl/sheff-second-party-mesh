@@ -344,7 +344,7 @@
 #include <fpu_control.h>
 #endif /* LINUX */
 #ifdef TRILIBRARY
-#include "triangle.h"
+#include "second_party_mesh/triangle/Triangle.h""
 #include "utility/Exceptions.h"
 #endif /* TRILIBRARY */
 
