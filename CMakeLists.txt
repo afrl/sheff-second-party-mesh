@@ -22,6 +22,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/CommonInputChecks.cmake)
 ########################
 
 
+find_package(Utility CONFIG REQUIRED HINTS "${CMAKE_SOURCE_DIR}/../utility/build" "${CMAKE_SOURCE_DIR}/../utility/install_dir")
 
 
 ################################
@@ -52,12 +53,14 @@ add_library(SecondPartyMesh::SecondPartyMesh ALIAS secondpartymesh)
 # Add C++ 14 flag
 target_compile_features(secondpartymesh PUBLIC cxx_std_14)
 # Link dependencies
+target_link_libraries(secondpartymesh PUBLIC Utility::Utility)
 
 
 # Assign source groups
 include(${CMAKE_SOURCE_DIR}/cmake/Utilities.cmake)
 assign_source_group("second_party_mesh" ${SECONDPARTYMESH_HEADER_LIST})
 assign_source_group("second_party_mesh" ${SECONDPARTYMESH_SOURCE_LIST})
+assign_source_group_Utility()
 
 
 #################################

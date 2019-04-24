@@ -344,12 +344,8 @@
 #include <fpu_control.h>
 #endif /* LINUX */
 #ifdef TRILIBRARY
-<<<<<<< HEAD
-#include "second_party_mesh/triangle/Triangle.h""
-#include "utility/Exceptions.h"
-=======
 #include "second_party_mesh/triangle/triangle.h"
->>>>>>> 1b5fa3d0b566cc971d653b782f791c5d0906dd82
+#include "utility/Exceptions.h"
 #endif /* TRILIBRARY */
 
 /* A few forward declarations.                                               */
