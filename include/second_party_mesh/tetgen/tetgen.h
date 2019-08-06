@@ -22,7 +22,7 @@
 // To compile TetGen as a library instead of an executable program, define
 //   the TETLIBRARY symbol.
 
-#define TETLIBRARY
+//#define TETLIBRARY
 
 
 // TetGen default uses the double precision (64 bit) for a real number. 
@@ -702,8 +702,8 @@ public:
   void usage();
 
   // Command line parse routine.
-  bool parse_commandline(int argc, char **argv);
-  bool parse_commandline(char *switches) {
+  bool parse_commandline(int argc, const char * const *argv);
+  bool parse_commandline(const char *switches) {
     return parse_commandline(0, &switches);
   }
 

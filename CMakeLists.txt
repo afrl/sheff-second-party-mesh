@@ -52,6 +52,8 @@ target_sources(secondpartymesh PRIVATE ${SECONDPARTYMESH_SOURCE_LIST})
 add_library(SecondPartyMesh::SecondPartyMesh ALIAS secondpartymesh)
 # Add C++ 14 flag
 target_compile_features(secondpartymesh PUBLIC cxx_std_14)
+# Define TETLIBRARY, which macros the interface in place for the main entry point
+target_compile_definitions(secondpartymesh PUBLIC TETLIBRARY)
 # Link dependencies
 target_link_libraries(secondpartymesh PUBLIC Utility::Utility)
 

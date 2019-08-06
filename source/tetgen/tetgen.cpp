@@ -17,6 +17,11 @@
 
 #include "second_party_mesh/tetgen/tetgen.h"
 
+
+#ifndef TETLIBRARY
+int main(int argc, char** argv);
+#endif
+
 namespace tetgen
 {
 
@@ -2973,7 +2978,7 @@ void tetgenbehavior::usage()
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-bool tetgenbehavior::parse_commandline(int argc, char **argv)
+bool tetgenbehavior::parse_commandline(int argc, const char * const *argv)
 {
   int startindex;
   int increment;
@@ -13416,6 +13421,7 @@ enum tetgenmesh::interresult tetgenmesh::sscoutsegment(face *searchsh,
 {
   face flipshs[2], neighsh;
   point startpt, pa, pb, pc, pd;
+  pc = nullptr;
   enum interresult dir;
   enum {MOVE_AB, MOVE_CA} nextmove;
   REAL ori_ab, ori_ca, len;
@@ -16529,7 +16535,7 @@ bool tetgenmesh::fillcavity(arraypool* topshells, arraypool* botshells,
   arraypool *cavshells;
   triface bdrytet, neightet, *parytet;
   triface searchtet, spintet;
-  face *parysh;
+  face *parysh = nullptr;
   face checkseg;
   point pa, pb, pc;
   bool mflag;
@@ -31575,17 +31581,8 @@ void tetrahedralize(tetgenbehavior *b, tetgenio *in, tetgenio *out,
   }
 }
 
-#ifndef TETLIBRARY
+#ifdef TETLIBRARY
 
-///////////////////////////////////////////////////////////////////////////////
-//                                                                           //
-// main()    The command line interface of TetGen.                           //
-//                                                                           //
-///////////////////////////////////////////////////////////////////////////////
-
-int main(int argc, char *argv[])
-
-#else // with TETLIBRARY
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -31593,19 +31590,39 @@ int main(int argc, char *argv[])
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-void tetrahedralize(char *switches, tetgenio *in, tetgenio *out,
-                    tetgenio *addin, tetgenio *bgmin)
+void tetrahedralize(char* switches, tetgenio* in, tetgenio* out,
+    tetgenio* addin, tetgenio* bgmin)
+{
+    tetgenbehavior b;
 
-#endif // not TETLIBRARY
+    if (!b.parse_commandline(switches)) {
+        terminatetetgen(NULL, 10);
+    }
+    tetrahedralize(&b, in, out, addin, bgmin);
+}
 
+};
+
+#else // with TETLIBRARY
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// main()    The command line interface of TetGen.                           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+}; // end tetgen namespace
+
+using namespace tetgen;
+
+int main(int argc, char ** argv)
 {
   tetgenbehavior b;
 
-#ifndef TETLIBRARY
-
   tetgenio in, addin, bgmin;
 
-  if (!b.parse_commandline(argc, argv)) {
+  char* const * const argv_const = &argv[0];
+  if (!b.parse_commandline(argc, argv_const)) {
     terminatetetgen(NULL, 10);
   }
 
@@ -31631,19 +31648,10 @@ void tetrahedralize(char *switches, tetgenio *in, tetgenio *out,
   tetrahedralize(&b, &in, NULL, &addin, &bgmin);
 
   return 0;
-
-#else // with TETLIBRARY
-
-  if (!b.parse_commandline(switches)) {
-    terminatetetgen(NULL, 10);
-  }
-  tetrahedralize(&b, in, out, addin, bgmin);
-
-#endif // not TETLIBRARY
 }
+
+#endif
 
 ////                                                                       ////
 ////                                                                       ////
 //// main_cxx /////////////////////////////////////////////////////////////////
-
-};
