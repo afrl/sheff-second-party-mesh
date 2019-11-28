@@ -4,12 +4,11 @@ cmake_policy(SET CMP0048 NEW)
 project(SECONDPARTYMESH VERSION 1.0.0 LANGUAGES CXX)
 
 # Options
-option(SECONDPARTYMESH_BuildDev "Build the project in the dev folder. (intended for debugging this project by devs)" OFF)
 option(SECONDPARTYMESH_BuildTests "Build the unit tests." OFF)
 
 # For debugging, print generator, compiler, and options
 message(STATUS "Gen: ${CMAKE_GENERATOR}, CXX: ${CMAKE_CXX_COMPILER_ID}, Mode: ${CMAKE_BUILD_TYPE}")
-message(STATUS "Dev: ${SECONDPARTYMESH_BuildDev}, Tests: ${SECONDPARTYMESH_BuildTests}")
+message(STATUS "Tests: ${SECONDPARTYMESH_BuildTests}")
 
 ##################
 # Checking input #
@@ -68,11 +67,6 @@ assign_source_group_Utility()
 #################################
 # Add dev and unit test targets #
 #################################
-
-# Build dev
-if(SECONDPARTYMESH_BuildDev)
-    add_subdirectory(dev)
-endif()
     
 # Build tests
 if(SECONDPARTYMESH_BuildTests)
