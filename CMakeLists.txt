@@ -3,12 +3,34 @@ cmake_minimum_required(VERSION 3.8)
 cmake_policy(SET CMP0048 NEW)
 project(SECONDPARTYMESH VERSION 1.0.0 LANGUAGES CXX)
 
+# Set package toolchain location for Linux. To enable efficient switching between
+# toolchains for cross-compiling, we modify the location where CMake looks for 
+# packages using the find_package command by symbolically linking the default location,
+# $HOME/.cmake/packages, to a similar location with the folder name given by the 
+# compiler family. 
+if (UNIX)
+    execute_process(COMMAND "mkdir" "-p" "$ENV{HOME}/.cmake/${CMAKE_CXX_COMPILER_ID}"
+      RESULT_VARIABLE toolchain_res OUTPUT_VARIABLE toolchain_out)
+    if (toolchain_res)
+        message(ERROR "Couldn't create toolchain dir: $ENV{HOME}/.cmake/${CMAKE_CXX_COMPILER_ID} ${toolchain_out}")
+    endif ()
+    execute_process(COMMAND "ln" "-sfn" "$ENV{HOME}/.cmake/${CMAKE_CXX_COMPILER_ID}" "$ENV{HOME}/.cmake/packages"
+      RESULT_VARIABLE toolchain_res OUTPUT_VARIABLE toolchain_out)
+    if (toolchain_res)
+        message(ERROR "Couldn't create toolchain link: $ENV{HOME}/.cmake/packages ${toolchain_out}")
+    endif ()
+endif()
+
+
 # Options
 option(SECONDPARTYMESH_BuildTests "Build the unit tests." OFF)
 
 # For debugging, print generator, compiler, and options
 message(STATUS "Gen: ${CMAKE_GENERATOR}, CXX: ${CMAKE_CXX_COMPILER_ID}, Mode: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Tests: ${SECONDPARTYMESH_BuildTests}")
+
+# Add cmake dir to module path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 ##################
 # Checking input #
@@ -21,7 +43,8 @@ include(${CMAKE_SOURCE_DIR}/cmake/CommonInputChecks.cmake)
 ########################
 
 
-find_package(Utility CONFIG REQUIRED HINTS "${CMAKE_SOURCE_DIR}/../utility/build" "${CMAKE_SOURCE_DIR}/../utility/install_dir")
+find_package(Utility CONFIG REQUIRED HINTS 
+  "${CMAKE_SOURCE_DIR}/../utility/install_dir" "${CMAKE_SOURCE_DIR}/../../utility/install_dir" "${CMAKE_SOURCE_DIR}/modules/utility/install_dir")
 
 
 ################################
@@ -30,7 +53,6 @@ find_package(Utility CONFIG REQUIRED HINTS "${CMAKE_SOURCE_DIR}/../utility/build
 
 # Set the variables for SECONDPARTYMESH
 set(SECONDPARTYMESH_INCLUDE ${CMAKE_SOURCE_DIR}/include)
-set(SECONDPARTYMESH_INCLUDE_SUB ${SECONDPARTYMESH_INCLUDE}/second_party_mesh)
 set(SECONDPARTYMESH_SRC ${CMAKE_SOURCE_DIR}/source)
 file (GLOB_RECURSE SECONDPARTYMESH_HEADER_LIST "${SECONDPARTYMESH_INCLUDE}/*.h")
 file (GLOB_RECURSE SECONDPARTYMESH_SOURCE_LIST "${SECONDPARTYMESH_SRC}/*.h" "${SECONDPARTYMESH_SRC}/*.cpp")
@@ -65,7 +87,7 @@ assign_source_group_Utility()
 
 
 #################################
-# Add dev and unit test targets #
+# Add unit test targets #
 #################################
     
 # Build tests
@@ -122,7 +144,7 @@ install(FILES
 # Exports #
 ###########
 
-# Export just the secondpartymesh target (not the dev, tests, etc.)
+# Export just the secondpartymesh target (not tests, etc.)
 export(
     TARGETS secondpartymesh
     FILE ${CMAKE_CURRENT_BINARY_DIR}/SecondPartyMeshTargets.cmake
