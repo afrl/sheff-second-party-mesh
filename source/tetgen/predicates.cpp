@@ -385,12 +385,12 @@ static REAL o3derrboundA, o3derrboundB, o3derrboundC;
 static REAL iccerrboundA, iccerrboundB, iccerrboundC;
 static REAL isperrboundA, isperrboundB, isperrboundC;
 
-// Options to choose types of geometric computtaions.
+// Options to choose types of geometric computtaions. 
 // Added by H. Si, 2012-08-23.
 static int  _use_inexact_arith; // -X option.
 static int  _use_static_filter; // Default option, disable it by -X1
 
-// Static filters for orient3d() and insphere().
+// Static filters for orient3d() and insphere(). 
 // They are pre-calcualted and set in exactinit().
 // Added by H. Si, 2012-08-23.
 static REAL o3dstaticfilter;
@@ -402,7 +402,7 @@ static REAL ispstaticfilter;
 //          http://www.math.utah.edu/~beebe/software/ieee/
 // The original program was "fpinfo2.c".
 
-double fppow2(int n)
+static double fppow2(int n)
 {
   double x, power;
   x = (n < 0) ? ((double)1.0/(double)2.0) : (double)2.0;
@@ -415,12 +415,12 @@ double fppow2(int n)
 
 #ifdef SINGLE
 
-float fstore(float x)
+static float fstore(float x)
 {
   return (x);
 }
 
-int test_float(int verbose)
+static int test_float(int verbose)
 {
   float x;
   int pass = 1;
@@ -470,12 +470,12 @@ int test_float(int verbose)
 
 # else
 
-double dstore(double x)
+static double dstore(double x)
 {
   return (x);
 }
 
-int test_double(int verbose)
+static int test_double(int verbose)
 {
   double x;
   int pass = 1;
@@ -491,7 +491,7 @@ int test_double(int verbose)
   x = 1.0;
   while (dstore(1.0 + x/2.0) != 1.0)
     x /= 2.0;
-  if (verbose)
+  if (verbose) 
     (void)printf("  machine epsilon = %13.5le ", x);
 
   if (x == (double)fppow2(-52)) {
@@ -543,7 +543,7 @@ int test_double(int verbose)
 /*                                                                           */
 /*****************************************************************************/
 
-void exactinit(int verbose, int noexact, int nofilter, REAL maxx, REAL maxy,
+void exactinit(int verbose, int noexact, int nofilter, REAL maxx, REAL maxy, 
                REAL maxz)
 {
   REAL half;
@@ -884,7 +884,7 @@ int expansion_sum_zeroelim2(int elen, REAL *e, int flen, REAL *f, REAL *h)
 /*                                                                           */
 /*****************************************************************************/
 
-int fast_expansion_sum(int elen, REAL *e, int flen, REAL *f, REAL *h)
+static int fast_expansion_sum(int elen, REAL *e, int flen, REAL *f, REAL *h)
 /* h cannot be e or f. */
 {
   REAL Q;
@@ -956,7 +956,7 @@ int fast_expansion_sum(int elen, REAL *e, int flen, REAL *f, REAL *h)
 /*  properties.                                                              */
 /*                                                                           */
 /*****************************************************************************/
-
+static
 int fast_expansion_sum_zeroelim(int elen, REAL *e, int flen, REAL *f, REAL *h)
 /* h cannot be e or f. */
 {
@@ -1168,7 +1168,7 @@ int linear_expansion_sum_zeroelim(int elen, REAL *e, int flen, REAL *f,
 /*  will h.)                                                                 */
 /*                                                                           */
 /*****************************************************************************/
-
+static
 int scale_expansion(int elen, REAL *e, REAL b, REAL *h)
 /* e and h cannot be the same. */
 {
@@ -1214,7 +1214,7 @@ int scale_expansion(int elen, REAL *e, REAL b, REAL *h)
 /*  will h.)                                                                 */
 /*                                                                           */
 /*****************************************************************************/
-
+static
 int scale_expansion_zeroelim(int elen, REAL *e, REAL b, REAL *h)
 /* e and h cannot be the same. */
 {
@@ -1266,7 +1266,7 @@ int scale_expansion_zeroelim(int elen, REAL *e, REAL b, REAL *h)
 /*  nonadjacent expansion.                                                   */
 /*                                                                           */
 /*****************************************************************************/
-
+static
 int compress(int elen, REAL *e, REAL *h)
 /* e and h may be the same. */
 {
@@ -1309,7 +1309,7 @@ int compress(int elen, REAL *e, REAL *h)
 /*  See either version of my paper for details.                              */
 /*                                                                           */
 /*****************************************************************************/
-
+static
 REAL estimate(int elen, REAL *e)
 {
   REAL Q;
@@ -1347,7 +1347,7 @@ REAL estimate(int elen, REAL *e)
 /*  nearly so.                                                               */
 /*                                                                           */
 /*****************************************************************************/
-
+static
 REAL orient2dfast(REAL *pa, REAL *pb, REAL *pc)
 {
   REAL acx, bcx, acy, bcy;
@@ -1359,6 +1359,7 @@ REAL orient2dfast(REAL *pa, REAL *pb, REAL *pc)
   return acx * bcy - acy * bcx;
 }
 
+//static
 REAL orient2dexact(REAL *pa, REAL *pb, REAL *pc)
 {
   INEXACT REAL axby1, axcy1, bxcy1, bxay1, cxay1, cxby1;
@@ -2180,9 +2181,9 @@ REAL orient3dadapt(REAL *pa, REAL *pb, REAL *pc, REAL *pd, REAL permanent)
 
 REAL orient3d(REAL *pa, REAL *pb, REAL *pc, REAL *pd)
 {
-  return (REAL)
+  return (REAL) 
     - cgal_pred_obj.orientation_3_object()
-        (Point(pa[0], pa[1], pa[2]),
+        (Point(pa[0], pa[1], pa[2]), 
          Point(pb[0], pb[1], pb[2]),
          Point(pc[0], pc[1], pc[2]),
          Point(pd[0], pd[1], pd[2]));
@@ -2216,7 +2217,7 @@ REAL orient3d(REAL *pa, REAL *pb, REAL *pc, REAL *pd)
   adxbdy = adx * bdy;
   bdxady = bdx * ady;
 
-  det = adz * (bdxcdy - cdxbdy)
+  det = adz * (bdxcdy - cdxbdy) 
       + bdz * (cdxady - adxcdy)
       + cdz * (adxbdy - bdxady);
 
@@ -4184,9 +4185,9 @@ REAL insphere(REAL *pa, REAL *pb, REAL *pc, REAL *pd, REAL *pe)
 /*  See my Robust Predicates paper for details.                              */
 /*                                                                           */
 /*****************************************************************************/
-
+//static
 REAL orient4dexact(REAL* pa, REAL* pb, REAL* pc, REAL* pd, REAL* pe,
-                   REAL aheight, REAL bheight, REAL cheight, REAL dheight,
+                   REAL aheight, REAL bheight, REAL cheight, REAL dheight, 
                    REAL eheight)
 {
   INEXACT REAL axby1, bxcy1, cxdy1, dxey1, exay1;
@@ -4400,8 +4401,9 @@ REAL orient4dexact(REAL* pa, REAL* pb, REAL* pc, REAL* pd, REAL* pe,
   return deter[deterlen - 1];
 }
 
+static
 REAL orient4dadapt(REAL* pa, REAL* pb, REAL* pc, REAL* pd, REAL* pe,
-                   REAL aheight, REAL bheight, REAL cheight, REAL dheight,
+                   REAL aheight, REAL bheight, REAL cheight, REAL dheight, 
                    REAL eheight, REAL permanent)
 {
   INEXACT REAL aex, bex, cex, dex, aey, bey, cey, dey, aez, bez, cez, dez;
@@ -4596,8 +4598,8 @@ REAL orient4dadapt(REAL* pa, REAL* pb, REAL* pc, REAL* pd, REAL* pe,
                        aheight, bheight, cheight, dheight, eheight);
 }
 
-REAL orient4d(REAL* pa, REAL* pb, REAL* pc, REAL* pd, REAL* pe,
-              REAL aheight, REAL bheight, REAL cheight, REAL dheight,
+REAL orient4d(REAL* pa, REAL* pb, REAL* pc, REAL* pd, REAL* pe, 
+              REAL aheight, REAL bheight, REAL cheight, REAL dheight, 
               REAL eheight)
 {
  REAL aex, bex, cex, dex;
@@ -4701,4 +4703,10 @@ REAL orient4d(REAL* pa, REAL* pb, REAL* pc, REAL* pd, REAL* pe,
                       aheight, bheight, cheight, dheight, eheight, permanent);
 }
 
-};
+} // end tetgen namespace
+
+
+
+//==============================================================================
+
+
