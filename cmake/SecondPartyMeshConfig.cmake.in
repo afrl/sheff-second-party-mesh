@@ -1,6 +1,6 @@
 # Make sure we have public dependencies available
-find_package(Utility CONFIG REQUIRED HINTS 
-  "${CMAKE_SOURCE_DIR}/../utility/install_dir" "${CMAKE_SOURCE_DIR}/../../utility/install_dir" "${CMAKE_SOURCE_DIR}/modules/utility/install_dir")
+find_package(Utility CONFIG REQUIRED NO_CMAKE_SYSTEM_PACKAGE_REGISTRY HINTS 
+  "${CMAKE_SOURCE_DIR}/../../first_party/utility/build")
 
 
 if(NOT TARGET SecondPartyMesh::SecondPartyMesh)

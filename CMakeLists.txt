@@ -25,7 +25,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/CommonInputChecks.cmake)
 
 if(NOT TARGET Utility::Utility)
     message(STATUS "Utility did not already exist, finding package.")
-    find_package(Utility CONFIG REQUIRED HINTS 
+    find_package(Utility CONFIG REQUIRED NO_CMAKE_SYSTEM_PACKAGE_REGISTRY HINTS 
         "${PROJECT_SOURCE_DIR}/../../first_party/utility/build"
         NO_CMAKE_PACKAGE_REGISTRY)
 endif()
