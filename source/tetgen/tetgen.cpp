@@ -36353,7 +36353,7 @@ void tetrahedralize(tetgenbehavior *b, tetgenio *in, tetgenio *out,
     }
   }
 
-  if (b->plc || b->quality) {
+  if ((b->plc || b->quality) && !b->noimprove) {
     m.improve_mesh();
   }
 

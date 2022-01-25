@@ -660,6 +660,7 @@ public:
   int quiet;                                                       // '-Q', 0.
   int nowarning;                                                   // '-W', 0.
   int verbose;                                                     // '-V', 0.
+  int noimprove;
 
   // Parameters of TetGen.
   int vertexperblock;                                           // '-x', 4092.
@@ -782,6 +783,7 @@ public:
     quiet = 0;
     nowarning = 0;
     verbose = 0;
+    noimprove = 0;
 
     vertexperblock = 4092;
     tetrahedraperblock = 8188;
