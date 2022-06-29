@@ -14,5 +14,12 @@ build:
   stage: build
 
   script:
+    # Ensure the latest JSON artifacts are in ../json/install_dir
+    - ./sheff_gitlab_ci/import_json.sh
+
+    # Ensure the latest utility artifacts are in ../utility/install_dir
+    # Pull artifacts first from a branch with the same name as this branch, and if it fails then pull from development    
+    - ./sheff_gitlab_ci/import_utility.sh
+
     - python3 make.py --config --build --verbose --make-tests --test
     - python3 make.py --config --build --verbose --make-tests --mode=RelWithDebInfo
