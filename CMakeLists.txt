@@ -39,6 +39,7 @@ macro(SPECIAL_TARGET_COMMANDS)
   if (MSVC)
     set_source_files_properties(${PROJECT_SOURCE_DIR}/source/ExprtkWrappers.cpp PROPERTIES COMPILE_FLAGS /bigobj)
   endif()
+  target_compile_definitions(${MAIN_COMPONENT} PUBLIC TETLIBRARY)
 endmacro()
 
 # Options
