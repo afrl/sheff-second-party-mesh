@@ -252,38 +252,45 @@
 /*  not used, `numberofsegments' will indicate the number of boundary edges. */
 /*                                                                           */
 /*****************************************************************************/
+
+namespace triangle
+{
+
 typedef double Real;
 
-struct triangulateio {
-  Real *pointlist;                                               /* In / out */
-  Real *pointattributelist;                                      /* In / out */
-  int *pointmarkerlist;                                          /* In / out */
-  int numberofpoints;                                            /* In / out */
-  int numberofpointattributes;                                   /* In / out */
+struct triangulateio
+{
+    Real* pointlist;             /* In / out */
+    Real* pointattributelist;    /* In / out */
+    int* pointmarkerlist;        /* In / out */
+    int numberofpoints;          /* In / out */
+    int numberofpointattributes; /* In / out */
 
-  int *trianglelist;                                             /* In / out */
-  Real *triangleattributelist;                                   /* In / out */
-  Real *trianglearealist;                                         /* In only */
-  int *neighborlist;                                             /* Out only */
-  int numberoftriangles;                                         /* In / out */
-  int numberofcorners;                                           /* In / out */
-  int numberoftriangleattributes;                                /* In / out */
+    int* trianglelist;              /* In / out */
+    Real* triangleattributelist;    /* In / out */
+    Real* trianglearealist;         /* In only */
+    int* neighborlist;              /* Out only */
+    int numberoftriangles;          /* In / out */
+    int numberofcorners;            /* In / out */
+    int numberoftriangleattributes; /* In / out */
 
-  int *segmentlist;                                              /* In / out */
-  int *segmentmarkerlist;                                        /* In / out */
-  int numberofsegments;                                          /* In / out */
+    int* segmentlist;       /* In / out */
+    int* segmentmarkerlist; /* In / out */
+    int numberofsegments;   /* In / out */
 
-  Real *holelist;                        /* In / pointer to array copied out */
-  int numberofholes;                                      /* In / copied out */
+    Real* holelist;    /* In / pointer to array copied out */
+    int numberofholes; /* In / copied out */
 
-  Real *regionlist;                      /* In / pointer to array copied out */
-  int numberofregions;                                    /* In / copied out */
+    Real* regionlist;    /* In / pointer to array copied out */
+    int numberofregions; /* In / copied out */
 
-  int *edgelist;                                                 /* Out only */
-  int *edgemarkerlist;            /* Not used with Voronoi diagram; out only */
-  Real *normlist;                /* Used only with Voronoi diagram; out only */
-  int numberofedges;                                             /* Out only */
+    int* edgelist;       /* Out only */
+    int* edgemarkerlist; /* Not used with Voronoi diagram; out only */
+    Real* normlist;      /* Used only with Voronoi diagram; out only */
+    int numberofedges;   /* Out only */
 };
 
-void triangulate(char *, triangulateio *, triangulateio *, triangulateio *);
-void trifree(void *memptr);
+void triangulate(char*, triangulateio*, triangulateio*, triangulateio*);
+void trifree(void* memptr);
+
+}

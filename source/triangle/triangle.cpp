@@ -348,6 +348,11 @@
 #include "utility/Exceptions.h"
 #endif /* TRILIBRARY */
 
+#ifdef TRILIBRARY
+namespace triangle
+{
+#endif
+
 /* A few forward declarations.                                               */
 
 #ifndef TRILIBRARY
@@ -16210,3 +16215,7 @@ char **argv;
 	return 0;
 #endif /* not TRILIBRARY */
 }
+
+#ifdef TRILIBRARY
+}
+#endif
